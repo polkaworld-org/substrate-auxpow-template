@@ -2,7 +2,7 @@ use primitives::H256;
 use codec::{Decode, Encode, Input, Output, IoReader, Error};
 use rustc_hex::{FromHex};
 use std::{ str };
-use crate::btc_hash::dhash256;
+use crate::hash::dhash256;
 
 #[derive(Debug, Encode, Decode)]
 pub struct OutPoint {

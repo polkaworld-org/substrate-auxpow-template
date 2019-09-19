@@ -1,11 +1,7 @@
-pub mod btc_header;
-pub mod btc_tx;
-pub mod btc_hash;
-
 use primitives::H256;
 use codec::{Decode, Encode, Input, Output, IoReader, Error};
-use crate::btc_header::BtcHeader;
-use crate::btc_tx::BtcTx;
+use btc::header::BtcHeader;
+use btc::transaction::BtcTx;
 use rustc_hex::FromHex;
 
 #[derive(Debug)]

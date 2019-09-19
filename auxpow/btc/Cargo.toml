@@ -1,0 +1,11 @@
+[package]
+name = "btc"
+version = "0.1.0"
+authors = ["Andrew yz <deedecho@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rust-crypto = "0.2.36"
+rustc-hex = "2"
+codec = { package = "parity-scale-codec", version = "1.0.0", default-features = false, features = ["derive"] }
+primitives = { package = "substrate-primitives", path = "../../substrate/core/primitives", default_features = false }

@@ -1,7 +1,7 @@
 use primitives::H256;
 use codec::{Decode, Encode, IoReader};
 use rustc_hex::FromHex;
-use crate::btc_hash::dhash256;
+use crate::hash::dhash256;
 
 #[derive(Debug, Encode, Decode)]
 pub struct BtcHeader {

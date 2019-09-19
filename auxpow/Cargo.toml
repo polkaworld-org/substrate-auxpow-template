@@ -5,7 +5,6 @@ authors = ["Andrew yz <deedecho@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rust-crypto = "0.2.36"
 rustc-hex = "2"
 codec = { package = "parity-scale-codec", version = "1.0.0", default-features = false, features = ["derive"] }
 runtime-io = { package = "sr-io", path = "../substrate/core/sr-io", default_features = false }
@@ -16,3 +15,4 @@ sr-primitives = { path = "../substrate/core/sr-primitives", default_features = f
 client = { package = "substrate-client", path = "../substrate/core/client", default_features = false }
 pow-primitives = { package = "substrate-consensus-pow-primitives", path = "../substrate/core/consensus/pow/primitives", default-features = false }
 pow = { package = "srml-pow", path = "../substrate/srml/pow", default-features = false }
+btc = { package = "btc", path = "./btc", default-features = false }
