@@ -26,7 +26,7 @@ pow-primitives = { package = "substrate-consensus-pow-primitives", path = "../su
 pow = { package = "srml-pow", path = "../substrate/srml/pow", default-features = false }
 authorship = { package = "srml-authorship", path = "../substrate/srml/authorship", default-features = false }
 substrate-session = { path = "../substrate/core/session", default-features = false }
-aux-pow = { package = "srml-auxpow", path = "../auxpow/srml", default-features = false }
+# pow = { package = "srml-auxpow", path = "../auxpow", default-features = false }
 
 [build-dependencies]
 wasm-builder-runner = { package = "substrate-wasm-builder-runner", version = "1.0.2" }

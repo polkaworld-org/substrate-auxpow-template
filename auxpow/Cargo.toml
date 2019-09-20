@@ -16,3 +16,4 @@ client = { package = "substrate-client", path = "../substrate/core/client", defa
 pow-primitives = { package = "substrate-consensus-pow-primitives", path = "../substrate/core/consensus/pow/primitives", default-features = false }
 pow = { package = "srml-pow", path = "../substrate/srml/pow", default-features = false }
 btc = { package = "btc", path = "./btc", default-features = false }
+srml-support = { path = "../substrate/srml/support", default-features = false }
