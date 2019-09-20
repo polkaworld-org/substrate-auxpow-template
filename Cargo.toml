@@ -32,7 +32,6 @@ pow-primitives = { package = "substrate-consensus-pow-primitives", path = "subst
 substrate-client = { path = "substrate/core/client" }
 basic-authorship = { package = "substrate-basic-authorship", path = "substrate/core/basic-authorship" }
 node-template-runtime = { path = "runtime" }
-auxpow = { path = "auxpow" }
 
 [build-dependencies]
 vergen = "3"

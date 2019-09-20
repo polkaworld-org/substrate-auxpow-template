@@ -1,7 +1,7 @@
-use crate::hash::dhash256;
+use crate::btc::hash::dhash256;
 use codec::{Decode, Encode, Error, Input, Output};
 use primitives::H256;
-use std::str;
+use rstd::vec::Vec;
 
 #[derive(Debug, Encode, Decode)]
 pub struct OutPoint {

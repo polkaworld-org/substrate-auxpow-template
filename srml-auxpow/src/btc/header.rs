@@ -1,4 +1,4 @@
-use crate::hash::dhash256;
+use crate::btc::hash::dhash256;
 use codec::{Decode, Encode};
 use primitives::H256;
 

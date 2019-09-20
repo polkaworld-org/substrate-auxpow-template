@@ -1,7 +1,8 @@
-use btc::header::BtcHeader;
-use btc::transaction::BtcTx;
+use crate::btc::header::BtcHeader;
+use crate::btc::transaction::BtcTx;
 use codec::{Decode, Encode, Error, Input, Output};
 use primitives::H256;
+use rstd::vec::Vec;
 
 #[derive(Debug)]
 pub struct AuxPow {
@@ -25,6 +26,17 @@ pub struct AuxPow {
     pub blockchain_index: u32,
     /// Parent block header.
     pub parent_header: BtcHeader,
+}
+
+impl AuxPow {
+    pub fn verify(&self) -> bool {
+        // todo
+        // check coinbase merkle branch
+        // check blockchain merkle branch
+        // check merged mining magic number, fabe6d6d
+        // check chainID
+        true
+    }
 }
 
 impl Encode for AuxPow {

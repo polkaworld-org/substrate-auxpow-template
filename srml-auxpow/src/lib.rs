@@ -2,6 +2,8 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub mod algos;
+pub mod auxpow;
+pub mod btc;
 pub mod diffs;
 
 use codec::Codec;

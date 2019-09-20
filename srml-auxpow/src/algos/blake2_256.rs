@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Substrate.  If not, see <http://www.gnu.org/licenses/>.
 
+use codec::{Decode, Encode};
 use pow_primitives::{Difficulty, Seal as RawSeal};
 use primitives::{H256, U256};
 use runtime_io::blake2_256;
-use codec::{Encode, Decode};
 
 fn verify_difficulty(hash: &H256, difficulty: Difficulty, proportion: Difficulty) -> bool {
 	let target = U256::from(difficulty) * U256::from(proportion);
@@ -36,7 +36,7 @@ pub fn verify(
 	pre_hash: &H256,
 	seal: &RawSeal,
 	difficulty: Difficulty,
-	proportion: Difficulty
+	proportion: Difficulty,
 ) -> bool {
 	let seal = match Seal::decode(&mut &seal[..]) {
 		Ok(seal) => seal,
@@ -44,11 +44,11 @@ pub fn verify(
 	};
 
 	if H256::from(blake2_256(&(pre_hash, seal.nonce).encode())) != seal.work {
-		return false
+		return false;
 	}
 
 	if !verify_difficulty(&seal.work, difficulty, proportion) {
-		return false
+		return false;
 	}
 
 	true
@@ -70,7 +70,7 @@ pub fn mine(
 		let work = H256::from(blake2_256(&(pre_hash, nonce).encode()));
 
 		if verify_difficulty(&work, difficulty, proportion) {
-			return Some(Seal { nonce, work }.encode())
+			return Some(Seal { nonce, work }.encode());
 		}
 	}
 
