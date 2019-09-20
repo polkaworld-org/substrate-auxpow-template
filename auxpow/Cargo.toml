@@ -5,7 +5,6 @@ authors = ["Andrew yz <deedecho@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rustc-hex = "2"
 codec = { package = "parity-scale-codec", version = "1.0.0", default-features = false, features = ["derive"] }
 runtime-io = { package = "sr-io", path = "../substrate/core/sr-io", default_features = false }
 primitives = { package = "substrate-primitives", path = "../substrate/core/primitives", default_features = false }
@@ -14,6 +13,8 @@ timestamp = { package = "srml-timestamp", path = "../substrate/srml/timestamp", 
 sr-primitives = { path = "../substrate/core/sr-primitives", default_features = false }
 client = { package = "substrate-client", path = "../substrate/core/client", default_features = false }
 pow-primitives = { package = "substrate-consensus-pow-primitives", path = "../substrate/core/consensus/pow/primitives", default-features = false }
-pow = { package = "srml-pow", path = "../substrate/srml/pow", default-features = false }
 btc = { package = "btc", path = "./btc", default-features = false }
 srml-support = { path = "../substrate/srml/support", default-features = false }
+
+[dev-dependencies]
+rustc-hex = "2"

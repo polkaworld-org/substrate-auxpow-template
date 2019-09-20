@@ -14,6 +14,8 @@ rstd = { package = "sr-std", path = "../../substrate/core/sr-std", default-featu
 sr-primitives = { path = "../../substrate/core/sr-primitives", default-features = false }
 runtime-io = { package = "sr-io", path = "../../substrate/core/sr-io", default-features = false }
 primitives = { package = "substrate-primitives", path = "../../substrate/core/primitives", default-features = false }
+btc = { package = "btc", path = "../btc", default-features = false }
+pow = { package = "auxpow", path = "../../auxpow", default-features = false }
 
 [features]
 default = ["std"]

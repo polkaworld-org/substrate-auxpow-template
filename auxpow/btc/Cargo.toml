@@ -5,7 +5,18 @@ authors = ["Andrew yz <deedecho@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rust-crypto = "0.2.36"
-rustc-hex = "2"
+sha2 = "0.8.0"
 codec = { package = "parity-scale-codec", version = "1.0.0", default-features = false, features = ["derive"] }
 primitives = { package = "substrate-primitives", path = "../../substrate/core/primitives", default_features = false }
+rstd = { package = "sr-std", path = "../../substrate/core/sr-std", default-features = false }
+
+[dev-dependencies]
+rustc-hex = "2"
+
+[features]
+default = ["std"]
+std = [
+	"codec/std",
+	"rstd/std",
+	"primitives/std",
+]

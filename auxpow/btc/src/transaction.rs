@@ -1,8 +1,7 @@
-use primitives::H256;
-use codec::{Decode, Encode, Input, Output, IoReader, Error};
-use rustc_hex::{FromHex};
-use std::{ str };
 use crate::hash::dhash256;
+use codec::{Decode, Encode, Error, Input, Output};
+use primitives::H256;
+use std::str;
 
 #[derive(Debug, Encode, Decode)]
 pub struct OutPoint {
@@ -132,19 +131,21 @@ impl BtcTx {
 	}
 }
 
-impl From<&'static str> for BtcTx {
-	fn from(s: &'static str) -> Self {
-		let hex_data = &s.from_hex::<Vec<u8>>().unwrap();
-        let mut io_reader = IoReader(std::io::Cursor::new(hex_data as &[u8]));
-        Decode::decode(&mut io_reader).unwrap()
-	}
-}
-
 #[cfg(test)]
 mod tests {
-	use super::{BtcTx};
+	use super::BtcTx;
+	use codec::{Decode, IoReader};
 	use primitives::H256;
-    use std::str::FromStr;
+	use rustc_hex::FromHex;
+	use std::str::FromStr;
+
+	impl From<&'static str> for BtcTx {
+		fn from(s: &'static str) -> Self {
+			let hex_data = &s.from_hex::<Vec<u8>>().unwrap();
+			let mut io_reader = IoReader(std::io::Cursor::new(hex_data as &[u8]));
+			Decode::decode(&mut io_reader).unwrap()
+		}
+	}
 
 	// real transaction from block 80000
 	// https://blockchain.info/rawtx/5a4ebf66822b0b2d56bd9dc64ece0bc38ee7844a23ff1d7320a88c5fdb2ad3e2
@@ -161,13 +162,15 @@ mod tests {
 		let tx_output = &t.outputs[0];
 		assert_eq!(tx_output.value, 5000000000);
 
-	 	// println!("{:?}", t);
+		// println!("{:?}", t);
 	}
 
 	#[test]
 	fn test_transaction_hash() {
 		let t: BtcTx = "0100000001a6b97044d03da79c005b20ea9c0e1a6d9dc12d9f7b91a5911c9030a439eed8f5000000004948304502206e21798a42fae0e854281abd38bacd1aeed3ee3738d9e1446618c4571d1090db022100e2ac980643b0b82c0e88ffdfec6b64e3e6ba35e7ba5fdd7d5d6cc8d25c6b241501ffffffff0100f2052a010000001976a914404371705fa9bd789a2fcd52d2c580b65d35549d88ac00000000".into();
-		let hash = H256::from_str("e2d32adb5f8ca820731dff234a84e78ec30bce4ec69dbd562d0b2b8266bf4e5a").unwrap();
+		let hash =
+			H256::from_str("e2d32adb5f8ca820731dff234a84e78ec30bce4ec69dbd562d0b2b8266bf4e5a")
+				.unwrap();
 		assert_eq!(t.hash(), hash);
 	}
 }
