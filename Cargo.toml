@@ -32,6 +32,9 @@ pow-primitives = { package = "substrate-consensus-pow-primitives", path = "subst
 substrate-client = { path = "substrate/core/client" }
 basic-authorship = { package = "substrate-basic-authorship", path = "substrate/core/basic-authorship" }
 node-template-runtime = { path = "runtime" }
+substrate-rpc = { package = "substrate-rpc", path = "substrate/core/rpc" }
+jsonrpc-core = "13.0.0"
+auxpow-rpc = { package = "auxpow-rpc", path="rpc" }
 
 [build-dependencies]
 vergen = "3"

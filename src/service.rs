@@ -2,25 +2,26 @@
 
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
+use basic_authorship::ProposerFactory;
+use codec::Encode;
+use futures::prelude::*;
+use inherents::InherentDataProviders;
+use network::{config::DummyFinalityProofRequestBuilder, construct_simple_protocol};
+use node_template_runtime::{
+	self, opaque::Block, AccountId, GenesisConfig, RuntimeApi, WASM_BINARY,
+};
+use pow::{import_queue, start_mine, PowImportQueue, PowRuntimeAlgorithm};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use substrate_client::{self as client, LongestChain};
-use pow::{import_queue, start_mine, PowRuntimeAlgorithm, PowImportQueue};
-use futures::prelude::*;
-use node_template_runtime::{self, AccountId, GenesisConfig, opaque::Block, RuntimeApi, WASM_BINARY};
-use substrate_service::{
-	FactoryFullConfiguration, LightComponents, FullComponents, FullBackend,
-	FullClient, LightClient, LightBackend, FullExecutor, LightExecutor,
-	error::{Error as ServiceError},
-};
-use transaction_pool::{self, txpool::{Pool as TransactionPool}};
-use inherents::InherentDataProviders;
-use network::{config::DummyFinalityProofRequestBuilder, construct_simple_protocol};
 use substrate_executor::native_executor_instance;
-use substrate_service::{ServiceFactory, construct_service_factory, TelemetryOnConnect};
-use basic_authorship::ProposerFactory;
-use codec::Encode;
 pub use substrate_executor::NativeExecutor;
+use substrate_service::{construct_service_factory, ServiceFactory, TelemetryOnConnect};
+use substrate_service::{
+	error::Error as ServiceError, FactoryFullConfiguration, FullBackend, FullClient,
+	FullComponents, FullExecutor, LightBackend, LightClient, LightComponents, LightExecutor,
+};
+use transaction_pool::{self, txpool::Pool as TransactionPool};
 
 // Our native executor instance.
 native_executor_instance!(
@@ -135,6 +136,15 @@ construct_service_factory! {
 		FinalityProofProvider = { |client: Arc<FullClient<Self>>| {
 			Ok(None)
 		}},
-		RpcExtensions = (),
+		RpcExtensions = jsonrpc_core::IoHandler<substrate_rpc::Metadata>
+		{ |client, pool| {
+			use auxpow_rpc::merged_mining::{MergedMining, MergedMiningApi};
+
+			let mut io = jsonrpc_core::IoHandler::default();
+			io.extend_with(
+				MergedMiningApi::to_delegate(MergedMining::new(client, pool))
+			);
+			io
+		}},
 	}
 }

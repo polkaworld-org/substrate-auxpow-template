@@ -1,0 +1,21 @@
+[package]
+name = "auxpow-rpc"
+version = "0.1.0"
+authors = ["Andrew yz <deedecho@gmail.com>"]
+edition = "2018"
+
+
+[dependencies]
+client = { package = "substrate-client", path = "../substrate/core/client" }
+jsonrpc-core = "13.0.0"
+jsonrpc-core-client = "13.0.0"
+jsonrpc-derive = "13.0.0"
+jsonrpc-pubsub = "13.0.0"
+keyring = { package = "substrate-keyring", path = "../substrate/core/keyring" }
+log = "0.4"
+node-primitives = { path = "../substrate/node/primitives" }
+codec = { package = "parity-scale-codec", version = "1.0.0" }
+serde = { version = "1.0", features = ["derive"] }
+sr-primitives = { path = "../substrate/core/sr-primitives" }
+substrate-primitives = { path = "../substrate/core/primitives" }
+transaction_pool = { package = "substrate-transaction-pool", path = "../substrate/core/transaction-pool" }
