@@ -2,37 +2,39 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
-#![recursion_limit="256"]
+#![recursion_limit = "256"]
 
 // Make the WASM binary available.
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use rstd::prelude::*;
-use primitives::{H256, OpaqueMetadata};
-use sr_primitives::{
-	ApplyResult, transaction_validity::TransactionValidity, generic, create_runtime_str,
-	AnySignature
-};
-use sr_primitives::traits::{NumberFor, BlakeTwo256, Block as BlockT, StaticLookup, Verify, ConvertInto};
-use sr_primitives::weights::Weight;
-use pow_primitives::{Seal, Difficulty};
-use pow::diffs::average_span;
 use client::{
-	block_builder::api::{CheckInherentsResult, InherentData, self as block_builder_api},
-	runtime_api as client_api, impl_runtime_apis
+	block_builder::api::{self as block_builder_api, CheckInherentsResult, InherentData},
+	impl_runtime_apis, runtime_api as client_api,
 };
-use version::RuntimeVersion;
+use pow::diffs::average_span;
+use pow_primitives::{Difficulty, Seal};
+use primitives::{OpaqueMetadata, H256};
+use rstd::prelude::*;
+use sr_primitives::traits::{
+	BlakeTwo256, Block as BlockT, ConvertInto, NumberFor, StaticLookup, Verify,
+};
+use sr_primitives::weights::Weight;
+use sr_primitives::{
+	create_runtime_str, generic, transaction_validity::TransactionValidity, AnySignature,
+	ApplyResult,
+};
 #[cfg(feature = "std")]
 use version::NativeVersion;
+use version::RuntimeVersion;
 
 // A few exports that help ease life for downstream crates.
+pub use balances::Call as BalancesCall;
 #[cfg(any(feature = "std", test))]
 pub use sr_primitives::BuildStorage;
+pub use sr_primitives::{Perbill, Permill};
+pub use support::{construct_runtime, parameter_types, StorageValue};
 pub use timestamp::Call as TimestampCall;
-pub use balances::Call as BalancesCall;
-pub use sr_primitives::{Permill, Perbill};
-pub use support::{StorageValue, construct_runtime, parameter_types};
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -290,14 +292,15 @@ pub type SignedExtra = (
 	system::CheckEra<Runtime>,
 	system::CheckNonce<Runtime>,
 	system::CheckWeight<Runtime>,
-	balances::TakeFees<Runtime>
+	balances::TakeFees<Runtime>,
 );
 /// Unchecked extrinsic type as expected by this runtime.
 pub type UncheckedExtrinsic = generic::UncheckedExtrinsic<Address, Call, Signature, SignedExtra>;
 /// Extrinsic type that has already been checked.
 pub type CheckedExtrinsic = generic::CheckedExtrinsic<AccountId, Call, SignedExtra>;
 /// Executive: handles dispatch to the various modules.
-pub type Executive = executive::Executive<Runtime, Block, system::ChainContext<Runtime>, Runtime, AllModules>;
+pub type Executive =
+	executive::Executive<Runtime, Block, system::ChainContext<Runtime>, Runtime, AllModules>;
 
 impl_runtime_apis! {
 	impl client_api::Core<Block> for Runtime {
@@ -367,11 +370,15 @@ impl_runtime_apis! {
 		}
 
 		fn verify(pre_hash: &H256, seal: &Seal, difficulty: Difficulty) -> bool {
-			pow::algos::blake2_256::verify(pre_hash, seal, difficulty, 10)
+			runtime_io::print("begin runtime verify!");
+			// pow::algos::blake2_256::verify(pre_hash, seal, difficulty, 10)
+			pow::algos::auxpow::verify(pre_hash, seal, difficulty, 10)
 		}
 
 		fn mine(pre_hash: &H256, seed: &H256, difficulty: Difficulty, round: u32) -> Option<Seal> {
-			pow::algos::blake2_256::mine(pre_hash, seed, difficulty, round, 10)
+			runtime_io::print("begin runtime mining!");
+			// pow::algos::blake2_256::mine(pre_hash, seed, difficulty, round, 10)
+			pow::algos::auxpow::mine(pre_hash, seed, difficulty, round, 10)
 		}
 	}
 }

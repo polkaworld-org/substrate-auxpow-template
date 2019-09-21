@@ -13,7 +13,7 @@ pub struct BtcHeader {
 }
 
 impl BtcHeader {
-	fn hash(&self) -> H256 {
+	pub fn hash(&self) -> H256 {
 		dhash256(&self.encode())
 	}
 }

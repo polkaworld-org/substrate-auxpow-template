@@ -29,7 +29,7 @@ pub struct AuxPow {
 }
 
 impl AuxPow {
-    pub fn verify(&self) -> bool {
+    pub fn verify(&self, pre_hash: &H256) -> bool {
         // todo
         // check coinbase merkle branch
         // check blockchain merkle branch

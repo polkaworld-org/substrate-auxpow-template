@@ -3,13 +3,13 @@ use codec::{Decode, Encode, Error, Input, Output};
 use primitives::H256;
 use rstd::vec::Vec;
 
-#[derive(Debug, Encode, Decode)]
+#[derive(Debug, Clone, Encode, Decode)]
 pub struct OutPoint {
 	pub hash: H256,
 	pub index: u32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TransactionInput {
 	pub previous_output: OutPoint,
 	pub script_sig: Vec<u8>,
@@ -126,7 +126,7 @@ impl Decode for BtcTx {
 }
 
 impl BtcTx {
-	fn hash(&self) -> H256 {
+	pub fn hash(&self) -> H256 {
 		dhash256(&self.encode())
 	}
 }
