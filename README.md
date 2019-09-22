@@ -1,6 +1,32 @@
-# Substrate Node Template
+# Substrate AuxPow Template 
 
-A new SRML-based Substrate node, ready for hacking.
+A new SRML-based Substrate node with AuxPow consensus.
+
+This project implements the same merged mining specification as namecoin. Normally, the miner who could mining namecoin could easily mining this node.
+
+The node is mainly implemented through the following two interfaces:
+
+- createauxblock
+- submitauxblock
+
+Bitcoin miners need to do the following:
+
+1. Get the auxblock hash and chain id through `createauxblock` interface.
+2. Write the auxblock hash into the coinbase of bitcoin. if there are multiple auxiliary chains, write the merkle root which generated with their auxblock hashes instead. Refer to the merged mining specification.
+3. Check if the bitcoin block header which contains the auxblock hash meets this node difficulty.
+4. Send the proof of work (auxpow) to this node which meets this node's difficulty through `submitauxblock` interface.
+
+This node does not implement a real-time notification of the task updates by ZMQ, so `createauxblock` needs to be periodically rotated from the mine pool, such as every 10 seconds.
+
+Merged mining specification： https://en.bitcoin.it/wiki/Merged_mining_specification
+
+## Todo
+
+1. Support generic algorithm on parent chain, to adapts to different algorithms, and can easily achieve merged mining with dogcoin and litecoin.
+2. Solving the variable length int problem of bitcoin structure deserialization
+3. Accept miner address, do not use a fixed address
+4. Blockchain reorganization mechanism (seems is already supported by substrate)
+5. Implement the full JSON-RPC for mining pool.
 
 ## Build
 
