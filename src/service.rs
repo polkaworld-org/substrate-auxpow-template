@@ -138,7 +138,7 @@ construct_service_factory! {
 		}},
 		RpcExtensions = jsonrpc_core::IoHandler<substrate_rpc::Metadata>
 		{ |client, pool| {
-			use auxpow_rpc::merged_mining::{MergedMining, MergedMiningApi};
+			use auxpow_rpc::{MergedMining, MergedMiningApi};
 
 			let mut io = jsonrpc_core::IoHandler::default();
 			io.extend_with(

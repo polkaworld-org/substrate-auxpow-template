@@ -15,4 +15,3 @@
 // along with Substrate.  If not, see <http://www.gnu.org/licenses/>.
 
 pub mod auxpow;
-pub mod blake2_256;

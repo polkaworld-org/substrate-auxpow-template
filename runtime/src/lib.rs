@@ -371,13 +371,11 @@ impl_runtime_apis! {
 
 		fn verify(pre_hash: &H256, seal: &Seal, difficulty: Difficulty) -> bool {
 			runtime_io::print("begin runtime verify!");
-			// pow::algos::blake2_256::verify(pre_hash, seal, difficulty, 10)
 			pow::algos::auxpow::verify(pre_hash, seal, difficulty, 10)
 		}
 
 		fn mine(pre_hash: &H256, seed: &H256, difficulty: Difficulty, round: u32) -> Option<Seal> {
 			runtime_io::print("begin runtime mining!");
-			// pow::algos::blake2_256::mine(pre_hash, seed, difficulty, round, 10)
 			pow::algos::auxpow::mine(pre_hash, seed, difficulty, round, 10)
 		}
 	}
